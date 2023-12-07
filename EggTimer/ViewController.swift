@@ -18,17 +18,20 @@ class ViewController: UIViewController {
     var player: AVAudioPlayer!
     var totalTime = 0
     var secondsPassed = 0
+    var hardness = ""
+    
     
     @IBAction func hardnessSelected(_ sender: UIButton) {
         
         timer.invalidate()
-        let hardness = sender.currentTitle!
+        hardness = sender.currentTitle!
         totalTime = eggTimes[hardness]!
 
         progressBar.progress = 0.0
         secondsPassed = 0
-        titleLabel.text = hardness
+        titleLabel.text = hardness + "in Progress"
 
+        
         timer = Timer.scheduledTimer(timeInterval: 1.0, target:self, selector: #selector(updateTimer), userInfo:nil, repeats: true)
     }
     
@@ -39,7 +42,7 @@ class ViewController: UIViewController {
             print(Float(secondsPassed) / Float(totalTime))
         } else {
             timer.invalidate()
-            titleLabel.text = "DONE!"
+            titleLabel.text = hardness + " DONE!"
             
             let url = Bundle.main.url(forResource: "alarm_sound", withExtension: "mp3")
             player = try! AVAudioPlayer(contentsOf: url!)
